@@ -28,7 +28,7 @@ nodejs() {
  systemctl start ${component} &>> ${log_file}
  }
 
-schema_setup() {
+mongo_schema_setup() {
   echo -e "${color} copy mongo repo file ${nocolor}"
   cp /home/centos/Roboshop-shell//mongodb/mongodb.repo /etc/yum.repos.d/mongodb.repo &>> ${log_file}
   echo -e "${color}  install Mongod client ${nocolor}"

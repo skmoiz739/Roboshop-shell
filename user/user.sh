@@ -1,4 +1,4 @@
 component=user
 source common.sh
 nodejs
-schema_setup
+mongo_schema_setup
