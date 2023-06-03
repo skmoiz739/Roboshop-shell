@@ -22,8 +22,19 @@ nodejs() {
  npm install &>> ${log_file}
  echo -e "${color} settingup systemd service ${nocolor}"
  cp /home/centos/Roboshop-shell/${component}/${component}.service /etc/systemd/system/${component}.service &>> ${log_file}
- echo -e "${color} starting ${component} ${nocolor}"
+ echo -e "${color} starting ${component} service ${nocolor}"
  systemctl daemon-reload &>> ${log_file}
  systemctl enable ${component} &>> ${log_file}
  systemctl start ${component} &>> ${log_file}
  }
+
+schema_setup() {
+  echo -e "${color} copy mongo repo file ${nocolor}"
+  cp /home/centos/Roboshop-shell//mongodb/mongodb.repo /etc/yum.repos.d/mongodb.repo &>> ${log_file}
+  echo -e "${color}  install Mongod client ${nocolor}"
+  yum install mongodb-org-shell -y &>> ${log_file}
+
+  echo -e "${color} load schemas ${nocolor}"
+  mongo --host mongodb-dev.devops-learning.site <${app_path}/schema/${component}.js &>> ${log_file}
+}
+
