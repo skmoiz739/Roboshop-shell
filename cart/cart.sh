@@ -14,7 +14,7 @@ echo -e "\e[33m installing dependencies \e[0m"
 cd /app
 npm install &>> /tmp/log.file
 echo -e "\e[33m installing service files \e[0m"
-cd /home/centos/Roboshop-shell/cart/cart.service /ect/systemd/system/cart.service &>> /tmp/log.file
+cd /home/centos/Roboshop-shell/cart/cart.service  /ect/systemd/system/cart.service &>> /tmp/log.file
 echo -e "\e[33m starting nginx \e[0m"
 systemctl daemon-reload &>> /tmp/log.file
 systemctl enable cart  &>> /tmp/log.file
