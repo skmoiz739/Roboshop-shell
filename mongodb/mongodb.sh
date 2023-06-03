@@ -6,5 +6,5 @@ echo -e "\e[33m editing address \e[0m"
 sed -i "s/127.00.1/0.0.0.0/" /etc/mongod.conf &>> /tmp/log.file
 echo -e "\e[33m starting mongodb \e[0m"
 systemctl enable mongod &>> /tmp/log.file
-systemctl restart mongod &>> /tmp/log.file
+systemctl start mongod &>> /tmp/log.file
 
