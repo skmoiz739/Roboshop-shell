@@ -87,7 +87,7 @@ mysql_schema_setup() {
    yum install mysql -y &>> ${log_file}
    stat_check $?
 
-   mysql -h mysql-dev.devops-learning.site -uroot -pRoboShop@1 < ${app_path}/schema/${component}.sql &>> ${log_file}
+   mysql -h mysql-dev.devops-learning.site -uroot -p${mysql_root_password} < ${app_path}/schema/${component}.sql &>> ${log_file}
    stat_check $?
 }
 
