@@ -2,6 +2,12 @@ color="\e[33m"
 nocolr="\e[0m"
 log_file="${/tmp/log.file}"
 app_path="/app"
+user_id=$(id -u)
+if [$user_id -ne 0]; then
+  echo script shouldbe running as root user
+  exit1
+fi
+
 stat_check() {
   if [ $1 -eq 0 ]; then
     echo sucess
