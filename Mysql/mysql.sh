@@ -1,11 +1,22 @@
-echo -e "\e[33m disabling current mysql verison \e[0m"
-yum module disable mysql -y &>> /tmp/log.file
-echo -e "\e[33m copy mysql repo \e[0m"
-cp cp /home/centos/Roboshop-shell/mysql/mysql.repo  /etc/yum.repos.d/mysql.repo  &>> /tmp/log.file
-echo -e "\e[33m install mysql  \e[0m"
-yum install mysql-community-server -y  &>> /tmp/log.file
-echo -e "\e[33m start mysql \e[0m"
-systemctl enable mysqld  &>> /tmp/log.file
-systemctl start mysqld  &>> /tmp/log.file
-echo -e "\e[33m set user password \e[0m"
-mysql_secure_installation --set-root-pass $1  &>> /tmp/log.file
+source common.sh
+
+echo -e "${nocolor} disabling current mysql verison ${nocolor}"
+yum module disable mysql -y &>> ${log_file}
+stat_check $?
+
+echo -e "${nocolor} copy mysql repo ${nocolor}"
+cp cp /home/centos/Roboshop-shell/mysql/mysql.repo  /etc/yum.repos.d/mysql.repo  &>> ${log_file}
+stat_check $?
+
+echo -e "${nocolor} install mysql  ${nocolor}"
+yum install mysql-community-server -y  &>> ${log_file}
+stat_check $?
+
+echo -e "${nocolor} start mysql ${nocolor}"
+systemctl enable mysqld  &>> ${log_file}
+systemctl start mysqld  &>> ${log_file}
+stat_check $?
+
+echo -e "${nocolor} set user password ${nocolor}"
+mysql_secure_installation --set-root-pass $1  &>> ${log_file}
+stat_check $?

@@ -65,13 +65,17 @@ systemd_setup() {
 nodejs() {
  echo -e "${color} configuring nodejs repos  ${nocolor}"
  curl -sL https://rpm.nodesource.com/setup_lts.x | bash &>> ${log_file}
+ stat_check $?
+
  echo -e "${color} installing nodejs ${nocolor}"
  yum install nodejs -y &>> ${log_file}
+ stat_check $?
 
  app_setup
 
  echo -e "${color} downloading nodejs dependencies ${nocolor}"
  npm install &>> ${log_file}
+ stat_check $?
 
  systemd_setup
 
@@ -81,25 +85,31 @@ nodejs() {
 mysql_schema_setup() {
    echo -e "${color} installing mysql client and loading schema ${nocolor}"
    yum install mysql -y &>> ${log_file}
+   stat_check $?
+
    mysql -h mysql-dev.devops-learning.site -uroot -pRoboShop@1 < ${app_path}/schema/${component}.sql &>> ${log_file}
+   stat_check $?
 }
 
 
 mongo_schema_setup() {
   echo -e "${color} copy mongo repo file ${nocolor}"
   cp /home/centos/Roboshop-shell//mongodb/mongodb.repo /etc/yum.repos.d/mongodb.repo &>> ${log_file}
+  stat_check $?
 
   echo -e "${color}  install Mongod client ${nocolor}"
   yum install mongodb-org-shell -y &>> ${log_file}
+  stat_check $?
 
   echo -e "${color} load schemas ${nocolor}"
   mongo --host mongodb-dev.devops-learning.site <${app_path}/schema/${component}.js &>> ${log_file}
+  stat_check $?
 }
 
 maven() {
   echo -e "${color} installing python ${nocolor}"
   yum install maven -y &>> ${log_file}
-  echo -e "${color} add user ${nocolor}"
+  stat_check $?
 
   app_setup
 
@@ -107,6 +117,7 @@ maven() {
   cd ${app_path}
   mvn clean package &>> ${log_file}
   mv target/${component}-1.0.jar ${component}.jar &>> ${log_file}
+  stat_check $?
 
   mysql_schema_setup
 
