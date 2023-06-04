@@ -41,6 +41,7 @@ systemd_setup() {
 
    echo -e "${color} settingup systemd service ${nocolor}"
    cp /home/centos/Roboshop-shell/${component}/${component}.service /etc/systemd/system/${component}.service &>> ${log_file}
+   sed-i -e"s/roboshop_app_password/$1/" /home/centos/Roboshop-shell/${component}.service
 
    stat_check $?
 
@@ -117,9 +118,8 @@ python() {
   echo -e "${color} download dependencies ${nocolor}"
   cd app_path
   pip3.6 install -r requirements.txt &>> ${log_file}
-  stat_check $?
 
-  sed-i -e"s/roboshop_app_password/$1/" /home/centos/Roboshop-shell/${component}.service
+  stat_check $?
 
   systemd_setup
 
