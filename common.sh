@@ -7,6 +7,7 @@ stat_check() {
     echo sucess
   else
     echo failure
+    exit 1
   fi
 }
 
