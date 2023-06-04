@@ -68,6 +68,7 @@ mongo_schema_setup() {
   echo -e "${color} load schemas ${nocolor}"
   mongo --host mongodb-dev.devops-learning.site <${app_path}/schema/${component}.js &>> ${log_file}
 }
+
 maven() {
   echo -e "${color} installing python ${nocolor}"
   yum install maven -y &>> ${log_file}
@@ -84,9 +85,19 @@ maven() {
 
   systemd_setup
 
+}
+
+python() {
+  echo -e "${color} install python ${nocolor}"
+  yum install python36 gcc python3-devel -y &>> log_file
+
+  app_setup
+
+  echo -e "${color} download dependencies ${nocolor}"
+  cd app_path
+  pip3.6 install -r requirements.txt &>> log_file
+
+  systemd_setup
 
 }
 
-
-
-}
