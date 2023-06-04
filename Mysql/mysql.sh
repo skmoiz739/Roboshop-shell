@@ -8,6 +8,4 @@ echo -e "\e[33m start mysql \e[0m"
 systemctl enable mysqld  &>> /tmp/log.file
 systemctl start mysqld  &>> /tmp/log.file
 echo -e "\e[33m set user password \e[0m"
-mysql_secure_installation --set-root-pass RoboShop@1  &>> /tmp/log.file
-echo -e "\e[33m user name  \e[0m"
-mysql -uroot -pRoboShop@1  &>> /tmp/log.file
+mysql_secure_installation --set-root-pass $1  &>> /tmp/log.file
