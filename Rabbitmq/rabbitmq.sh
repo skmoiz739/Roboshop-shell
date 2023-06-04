@@ -1,11 +1,20 @@
-echo -e "\e[33m downloading vendor package \e[0m"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash  &>> /tmp/log.file
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash  &>> /tmp/log.file
-echo -e "\e[33m installing rabbitmq server \e[0m"
-yum install rabbitmq-server -y  &>> /tmp/log.file
-echo -e "\e[33m start and enable server \e[0m"
-systemctl enable rabbitmq-server  &>> /tmp/log.file
-systemctl start rabbitmq-server  &>> /tmp/log.file
-echo -e "\e[33m adding user nd password \e[0m"
-rabbitmqctl add_user roboshop $1  &>> /tmp/log.file
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"  &>> /tmp/log.file
+source common.sh
+
+echo -e "${nocolor} downloading vendor package ${nocolor}"
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash  &>> ${log_file}
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash  &>> ${log_file}
+stat_check $?
+
+echo -e "${nocolor} installing rabbitmq server ${nocolor}"
+yum install rabbitmq-server -y  &>> ${log_file}
+stat_check $?
+
+echo -e "${nocolor} start and enable server ${nocolor}"
+systemctl enable rabbitmq-server  &>> ${log_file}
+systemctl start rabbitmq-server  &>> ${log_file}
+stat_check $?
+
+echo -e "${nocolor} adding user nd password ${nocolor}"
+rabbitmqctl add_user roboshop $1  &>> ${log_file}
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"  &>> ${log_file}
+stat_check $?
