@@ -1,14 +1,21 @@
-echo -e "\e[33m installing nginx \e[0m"
-yum install nginx -y &>> /tmp/log.file
-echo -e "\e[33m removing user share file \e[0m"
-rm -rf /usr/share/nginx/html/* &>> /tmp/log.file
-echo -e "\e[33m downloading the required files \e[0m"
-curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip &>> /tmp/log.file
-echo -e "\e[33m creating app dir and unzipping \e[0m"
-cd /usr/share/nginx/html &>> /tmp/log.file
-unzip /tmp/frontend.zip &>>/tmp/log.file
+source common.sh
 
-#we will give config files here
-echo -e "\e[33m start nginx \e[0m"
-systemctl enable nginx &>> /tmp/log.file
-systemctl restart nginx &>> /tmp/log.file
+echo -e "${color} installing nginx ${nocolor}"
+yum install nginx -y &>> ${log_file}
+
+echo -e "${color} removing user share file ${nocolor}"
+rm -rf /usr/share/nginx/html/* &>> ${log_file}
+
+echo -e "${color} downloading the required files ${nocolor}"
+curl -o /tmp/frontend.zip https://roboshop-artifacts.s3.amazonaws.com/frontend.zip &>> ${log_file}
+
+echo -e "${color} creating app dir and unzipping ${nocolor}"
+cd /usr/share/nginx/html &>> ${log_file}
+unzip /tmp/frontend.zip &>>${log_file}
+
+echo -e "${color} update front end config ${nocolor}"
+cp/home/centos/Roboshop-shell/frontend.conf  /etc/nginx/default.d/roboshop.conf  &>> ${log_file}
+
+echo -e "${color} start nginx ${nocolor}"
+systemctl enable nginx &>> ${log_file}
+systemctl restart nginx &>> ${log_file}

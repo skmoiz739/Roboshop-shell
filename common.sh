@@ -89,13 +89,13 @@ maven() {
 
 python() {
   echo -e "${color} install python ${nocolor}"
-  yum install python36 gcc python3-devel -y &>> log_file
+  yum install python36 gcc python3-devel -y &>> ${log_file}
 
   app_setup
 
   echo -e "${color} download dependencies ${nocolor}"
   cd app_path
-  pip3.6 install -r requirements.txt &>> log_file
+  pip3.6 install -r requirements.txt &>> ${log_file}
 
   systemd_setup
 
